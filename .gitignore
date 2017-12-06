@@ -1,0 +1,8 @@
+#Fichiers inutiles de windows, mac et linux
+*.db
+.DS_Store
+*~
+._*
+
+# fichiers pouvant contenir des configs
+/connexion_data.php
