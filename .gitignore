@@ -6,3 +6,4 @@
 
 # fichiers pouvant contenir des configs
 /connexion_data.php
+/user/
