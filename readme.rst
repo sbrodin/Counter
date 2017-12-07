@@ -2,7 +2,7 @@
 Application Counter
 ###################
 
-`Counter <http://counter.stanislas-brodin.fr>`_ est une application de compteur.
+`Counter <https://counter.stanislas-brodin.fr>`_ est une application de compteur.
 Il est possible de créer des compteurs, d'en supprimer, de les personnaliser (nom, couleur)
 et, évidemment, de les incrémenter et décrémenter.
 Un historique des modifications est également en place, afin de permettre d'obtenir des
@@ -48,6 +48,7 @@ TODO
 ****
 
 Liste des éléments restants à faire :
-    - Ajouter le cas du changement de nom du compteur
-    - Ajouter le cas du changement de couleur du compteur
-    - Ajouter l'enregistrement de la modification du compteur dans l'historique
+    - Ajout d'un compteur
+    - Changement de nom du compteur
+    - Changement de couleur du compteur
+    - Enregistrement de la modification du compteur dans l'historique
