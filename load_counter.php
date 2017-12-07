@@ -2,7 +2,12 @@
 if (isset($_POST['name']) && !empty($_POST['name'])) {
     $name = $_POST['name'];
 } else {
-    die ('Problème de paramètre');
+    $return = array(
+        'status' => 'error',
+        'message' => 'Problème de paramètre',
+    );
+    echo json_encode($return);
+    exit;
 }
 require 'database_connect.php';
 
@@ -16,7 +21,13 @@ $query.= 'WHERE user.user_name = ?)';
 $stmt = $mysqli->prepare($query);
 $counters = array();
 if (!$stmt) {
-    echo 'Echec lors de la preparation de la requete';
+    require 'database_disconnect.php';
+    $return = array(
+        'status' => 'error',
+        'message' => 'Echec lors de la preparation de la requête',
+    );
+    echo json_encode($return);
+    exit;
 } else {
     // $name est de la forme '/counter/user/name/'
     $name = explode('/', $name);
@@ -25,7 +36,9 @@ if (!$stmt) {
 
     $stmt->bind_param('s', $name);
     $stmt->execute();
-    $result = $stmt->get_result();
+    if ($result = $stmt->get_result()) {
+        $counters['status'] = 'success';
+    }
     while ($row = $result->fetch_assoc()) {
         $counters[] = $row;
     }
