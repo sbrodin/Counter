@@ -69,6 +69,12 @@ table {
 }
 
 
+#counters {
+  margin-bottom: 20px;
+}
+.counter {
+  margin-top: 20px;
+}
 .counter td {
   border: 1px solid #000000;
   text-align: center;
