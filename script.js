@@ -3,6 +3,30 @@ document.querySelector('#logout').onclick = function() {
     window.location.href = 'https://logout:logout@counter.stanislas-brodin.fr' + window.location.pathname;
 };
 
+window.onload = function() {
+    // Appel AJAX
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "../../load_counter.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState != 4 || xhr.status != 200) {
+            if (xhr.responseText != '') {
+                var response = JSON.parse(xhr.responseText);
+                if (response.status == 'success') {
+                    delete response.status;
+                    show_counter(response);
+                }
+            }
+            return;
+        }
+    };
+    xhr.send("name=" + window.location.pathname);
+
+    document.querySelectorAll('.change_counter').forEach(function(element) {
+        element.addEventListener('click', change_counter, false);
+    })
+};
+
 function change_counter() {
     var counter_id = this.closest('table').getAttribute('data-id');
     var value = encodeURIComponent(this.innerHTML);
@@ -26,30 +50,6 @@ function change_counter() {
         xhr.send("counter_id=" + counter_id + "&name=" + window.location.pathname + "&direction=" + value);
     }
     // TODO : Ajouter les cas de changement de nom et de couleur du compteur
-};
-
-window.onload = function() {
-    // Appel AJAX
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "../../load_counter.php", true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState != 4 || xhr.status != 200) {
-            if (xhr.responseText != '') {
-                var response = JSON.parse(xhr.responseText);
-                if (response.status == 'success') {
-                    delete response.status;
-                    show_counter(response);
-                }
-            }
-            return;
-        }
-    };
-    xhr.send("name=" + window.location.pathname);
-
-    document.querySelectorAll('.change_counter').forEach(function(element) {
-        element.addEventListener('click', change_counter, false);
-    })
 };
 
 function show_counter(counters) {
