@@ -30,8 +30,7 @@ en précisant qu'il s'agit de l'application Counter.
 License
 *******
 
-Please see the `license
-agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/license.rst>`_.
+Please see the `license agreement <https://github.com/sbrodin/Counter/blob/master/license.txt>`_.
 
 **********
 Ressources
