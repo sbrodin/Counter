@@ -48,3 +48,7 @@ Cette application a été développée en utilisant les technologies suivantes :
 TODO
 ****
 
+Liste des éléments restants à faire :
+    - Ajouter le cas du changement de nom du compteur
+    - Ajouter le cas du changement de couleur du compteur
+    - Ajouter l'enregistrement de la modification du compteur dans l'historique
