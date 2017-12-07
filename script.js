@@ -1,4 +1,4 @@
-document.querySelector('#logout').onclick = function() {
+document.querySelector('#logout').onclick = function(event) {
     event.preventDefault();
     window.location.href = 'https://logout:logout@counter.stanislas-brodin.fr' + window.location.pathname;
 };
@@ -14,7 +14,7 @@ window.onload = function() {
                 var response = JSON.parse(xhr.responseText);
                 if (response.status == 'success') {
                     delete response.status;
-                    show_counter(response);
+                    display_counter(response);
                 }
             }
             return;
@@ -22,17 +22,22 @@ window.onload = function() {
     };
     xhr.send("name=" + window.location.pathname);
 
-    document.querySelectorAll('.change_counter').forEach(function(element) {
-        element.addEventListener('click', change_counter, false);
+    document.querySelectorAll('.update_counter').forEach(function(element) {
+        element.addEventListener('click', update_counter, false);
     })
+
+    document.querySelector('#create_counter').onclick = function(event) {
+        event.preventDefault();
+        create_counter();
+    };
 };
 
-function change_counter() {
+function update_counter() {
     var counter_id = this.closest('table').getAttribute('data-id');
     var value = encodeURIComponent(this.innerHTML);
     // Appel AJAX
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "../../change_counter.php", true);
+    xhr.open("POST", "../../update_counter.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
         if (xhr.readyState != 4 || xhr.status != 200) {
@@ -52,7 +57,7 @@ function change_counter() {
     // TODO : Ajouter les cas de changement de nom et de couleur du compteur
 };
 
-function show_counter(counters) {
+function display_counter(counters) {
     var counters_div = document.querySelector('#counters');
     for (var counter_key in counters) {
         counter = counters[counter_key];
@@ -62,9 +67,9 @@ function show_counter(counters) {
 
         // Création de la première ligne qui va contenir les données du compteur
         var first_table_row = createElementTr('', '');
-        var ftr_first_div = createElementTd('', 'change_counter minus', 2, '-');
+        var ftr_first_div = createElementTd('', 'update_counter minus', 2, '-');
         var ftr_second_div = createElementTd('', 'counter_name', '', counter.counter_name, counter.counter_color);
-        var ftr_third_div = createElementTd('', 'change_counter plus', 2, '+');
+        var ftr_third_div = createElementTd('', 'update_counter plus', 2, '+');
 
         // Ajout des td dans le tr parent
         first_table_row.appendChild(ftr_first_div);
@@ -89,8 +94,8 @@ function show_counter(counters) {
     };
 
     // Ajout des listeners
-    document.querySelectorAll('.change_counter').forEach(function(element) {
-        element.addEventListener('click', change_counter, false);
+    document.querySelectorAll('.update_counter').forEach(function(element) {
+        element.addEventListener('click', update_counter, false);
     })
 }
 
@@ -153,4 +158,23 @@ function update_html(counter) {
             --counter_value.innerHTML;
         }
     }
+}
+
+function create_counter() {
+    // Appel AJAX
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "../../create_counter.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState != 4 || xhr.status != 200) {
+            if (xhr.responseText != '') {
+                var response = JSON.parse(xhr.responseText);
+                if (response.status == 'success') {
+                    delete response.status;
+                    display_counter(response);
+                }
+            }
+        }
+    };
+    xhr.send("name=" + window.location.pathname);
 }
