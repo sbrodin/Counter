@@ -1,20 +1,31 @@
-document.getElementById('logout').onclick = function() {
+document.querySelector('#logout').onclick = function() {
     event.preventDefault();
     window.location.href = 'https://logout:logout@counter.stanislas-brodin.fr' + window.location.pathname;
 };
 
-document.getElementById('send_ajax').onclick = function(event) {
-    event.preventDefault();
+function change_counter() {
+    var counter_id = this.closest('table').getAttribute('data-id');
+    var value = encodeURIComponent(this.innerHTML);
     // Appel AJAX
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "../../change_counter.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
         if (xhr.readyState != 4 || xhr.status != 200) {
-            return;
+            if (xhr.responseText != '') {
+                var response = JSON.parse(xhr.responseText);
+                if (response.status == 'success') {
+                    delete response.status;
+                    update_html(response);
+                }
+            }
         }
     };
-    xhr.send("banana=yellow&tomato=red");
+    // Incrémentation / décrémentation du compteur
+    if (value == encodeURIComponent('-') || value == encodeURIComponent('+')) {
+        xhr.send("counter_id=" + counter_id + "&name=" + window.location.pathname + "&direction=" + value);
+    }
+    // TODO : Ajouter les cas de changement de nom et de couleur du compteur
 };
 
 window.onload = function() {
@@ -24,30 +35,36 @@ window.onload = function() {
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
         if (xhr.readyState != 4 || xhr.status != 200) {
-            show_counter(xhr.responseText);
+            if (xhr.responseText != '') {
+                var response = JSON.parse(xhr.responseText);
+                if (response.status == 'success') {
+                    delete response.status;
+                    show_counter(response);
+                }
+            }
             return;
         }
     };
     xhr.send("name=" + window.location.pathname);
+
+    document.querySelectorAll('.change_counter').forEach(function(element) {
+        element.addEventListener('click', change_counter, false);
+    })
 };
 
 function show_counter(counters) {
-    if (counters == '') {
-        return;
-    }
-    counters = JSON.parse(counters);
-    var counters_div = document.getElementById('counters');
-    counters.forEach(function(counter) {
-        console.log(counter);
-
+    var counters_div = document.querySelector('#counters');
+    for (var counter_key in counters) {
+        counter = counters[counter_key];
         // Création du tableau qui va contenir les données du compteur
         var table = createElementTable('', 'counter', counter.counter_id);
+        var tbody = createElementTbody();
 
         // Création de la première ligne qui va contenir les données du compteur
         var first_table_row = createElementTr('', '');
-        var ftr_first_div = createElementTd('', 'minus', 2, '-');
+        var ftr_first_div = createElementTd('', 'change_counter minus', 2, '-');
         var ftr_second_div = createElementTd('', 'counter_name', '', counter.counter_name, counter.counter_color);
-        var ftr_third_div = createElementTd('', 'plus', 2, '+');
+        var ftr_third_div = createElementTd('', 'change_counter plus', 2, '+');
 
         // Ajout des td dans le tr parent
         first_table_row.appendChild(ftr_first_div);
@@ -62,12 +79,19 @@ function show_counter(counters) {
         second_table_row.appendChild(str_first_div);
 
         // Ajout des tr dans le tableau
-        table.appendChild(first_table_row);
-        table.appendChild(second_table_row);
+        tbody.appendChild(first_table_row);
+        tbody.appendChild(second_table_row);
+        // Ajout du body dans le tableau
+        table.appendChild(tbody)
 
         // Ajout du compteur dans la div conteneur
         counters_div.appendChild(table);
-    });
+    };
+
+    // Ajout des listeners
+    document.querySelectorAll('.change_counter').forEach(function(element) {
+        element.addEventListener('click', change_counter, false);
+    })
 }
 
 function createElementTable(table_id, table_class, table_data_id) {
@@ -84,6 +108,11 @@ function createElementTable(table_id, table_class, table_data_id) {
         table.setAttribute('data-id', table_data_id);
     }
     return table;
+}
+
+function createElementTbody() {
+    var tbody = document.createElement('tbody');
+    return tbody;
 }
 
 function createElementTr(tr_id, tr_class) {
@@ -113,4 +142,15 @@ function createElementTd(td_id, td_class, td_rowspan, td_content, td_color) {
         td.style.backgroundColor = '#' + td_color;
     }
     return td;
+}
+
+function update_html(counter) {
+    if (counter.direction != undefined) {
+        var counter_value = document.querySelector('.counter[data-id="' + counter.counter_id + '"] .counter_value');
+        if (counter.direction == '+') {
+            ++counter_value.innerHTML;
+        } else if (counter.direction == '-') {
+            --counter_value.innerHTML;
+        }
+    }
 }
