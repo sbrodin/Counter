@@ -1,5 +1,5 @@
 <?php
-if (isset($_POST['name']) && !empty($_POST['name']) ||
+if (isset($_POST['name']) && !empty($_POST['name']) &&
     isset($_POST['counter_id'])) {
     $name = $_POST['name'];
     $counter_id = intval($_POST['counter_id']);
@@ -35,7 +35,7 @@ if (!$stmt) {
     require 'database_disconnect.php';
     $return = array(
         'status' => 'error',
-        'message' => 'Problème de paramètre',
+        'message' => 'Echec lors de la préparation de la requête',
     );
     echo json_encode($return);
     exit;

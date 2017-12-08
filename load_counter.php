@@ -24,7 +24,7 @@ if (!$stmt) {
     require 'database_disconnect.php';
     $return = array(
         'status' => 'error',
-        'message' => 'Echec lors de la preparation de la requête',
+        'message' => 'Echec lors de la préparation de la requête',
     );
     echo json_encode($return);
     exit;
