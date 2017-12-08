@@ -16,7 +16,8 @@ $query.= 'FROM counter ';
 $query.= 'WHERE counter.user_id = ';
 $query.= '(SELECT user.user_id ';
 $query.= 'FROM user ';
-$query.= 'WHERE user.user_name = ?)';
+$query.= 'WHERE user.user_name = ?) ';
+$query.= 'AND counter.active = ? ';
 
 $stmt = $mysqli->prepare($query);
 $counters = array();
@@ -33,8 +34,9 @@ if (!$stmt) {
     $name = explode('/', $name);
     $name_length = count($name);
     $name = $name[$name_length - 2];
+    $active = 1;
 
-    $stmt->bind_param('s', $name);
+    $stmt->bind_param('sd', $name, $active);
     $stmt->execute();
     if ($result = $stmt->get_result()) {
         $counters['status'] = 'success';

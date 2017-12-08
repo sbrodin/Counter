@@ -13,7 +13,7 @@ if (isset($_POST['name']) && !empty($_POST['name']) &&
 }
 require 'database_connect.php';
 
-// Mise à jour du compteur avec vérification de l'appartenance du compteur à l'utilisateur
+// Suppression du compteur avec vérification de l'appartenance du compteur à l'utilisateur
 $query = 'UPDATE counter ';
 if (isset($_POST['direction'])) {
     if ($_POST['direction'] == '+') {
@@ -21,9 +21,6 @@ if (isset($_POST['direction'])) {
     } else if ($_POST['direction'] == '-'){
         $query.= 'SET counter_value = counter_value-1 ';
     }
-}
-if (isset($_POST['delete'])) {
-    $query.= 'SET active = 0 ';
 }
 $query.= 'WHERE counter_id = ? ';
 $query.= 'AND counter.user_id = ';
@@ -62,9 +59,6 @@ if (!$stmt) {
             } else if ($_POST['direction'] == '-'){
                 $return['direction'] = '-';
             }
-        }
-        if (isset($_POST['delete'])) {
-            $return['delete'] = true;
         }
     } else {
         $return = array(

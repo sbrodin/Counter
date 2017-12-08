@@ -72,15 +72,19 @@ table {
 #counters {
   margin-bottom: 20px;
 }
-.counter {
-  margin-top: 20px;
-  padding: 0 20px;
+.counter_container {
   position: relative;
+  width: auto;
+  margin-top: 20px;
+  padding: 0 30px 0 10px;
 }
-.counter:after {
-  position: absolute;
-  top: 0;
-  right: 0;
+.counter {
+  position: relative;
+  display: inline-block;
+}
+.delete_counter {
+  display: inline-block;
+  vertical-align: top;
   content: '-';
   color: #ffffff;
   background-color: #cc3333;
@@ -90,6 +94,8 @@ table {
   text-align: center;
   font-size: 1rem;
   font-weight: bolder;
+  cursor: pointer;
+  margin-left: 10px;
 }
 .counter td {
   border: 1px solid #000000;
@@ -106,7 +112,7 @@ table {
 .counter td.minus,
 .counter td.plus {
   cursor: pointer;
-  width: 50px;
+  width: 70px;
   font-size: 1.5rem;
 }
 .counter td.counter_name {
@@ -114,5 +120,12 @@ table {
 }
 .counter td.counter_name,
 .counter td.counter_value {
-  padding: 5px;
+  padding: 5px 15px;
+}
+.counter td.minus,
+.counter td.plus,
+.counter td.counter_name,
+.counter td.counter_value,
+.delete_counter {
+  user-select: none;
 }
