@@ -178,3 +178,22 @@ function create_counter() {
     };
     xhr.send("name=" + window.location.pathname);
 }
+
+function delete_counter() {
+    // Appel AJAX
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "../../delete_counter.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState != 4 || xhr.status != 200) {
+            if (xhr.responseText != '') {
+                var response = JSON.parse(xhr.responseText);
+                if (response.status == 'success') {
+                    delete response.status;
+                    display_counter(response);
+                }
+            }
+        }
+    };
+    xhr.send("name=" + window.location.pathname);
+}

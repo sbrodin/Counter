@@ -1,8 +1,6 @@
 <?php
-if (isset($_POST['name']) && !empty($_POST['name']) ||
-    isset($_POST['counter_id'])) {
+if (isset($_POST['name']) && !empty($_POST['name'])) {
     $name = $_POST['name'];
-    $counter_id = intval($_POST['counter_id']);
 } else {
     $return = array(
         'status' => 'error',
@@ -13,21 +11,13 @@ if (isset($_POST['name']) && !empty($_POST['name']) ||
 }
 require 'database_connect.php';
 
-// Mise à jour du compteur avec vérification de l'appartenance du compteur à l'utilisateur
-$query = 'UPDATE counter ';
-if (isset($_POST['direction'])) {
-    if ($_POST['direction'] == '+') {
-        $query.= 'SET counter_value = counter_value+1 ';
-    } else if ($_POST['direction'] == '-'){
-        $query.= 'SET counter_value = counter_value-1 ';
-    }
-}
-$query.= 'WHERE counter_id = ? ';
-$query.= 'AND counter.user_id = ';
-$query.= '(SELECT user.user_id ';
+// Création du compteur
+$query = 'INSERT INTO counter ';
+$query.= '(user_id, counter_name, counter_color, counter_value) ';
+$query.= 'VALUES ';
+$query.= '((SELECT user.user_id ';
 $query.= 'FROM user ';
-$query.= 'WHERE user.user_name = ?) ';
-$query.= 'LIMIT 1';
+$query.= 'WHERE user.user_name = ?), ?, ?, ?) ';
 
 $stmt = $mysqli->prepare($query);
 $counters = array();
@@ -45,21 +35,27 @@ if (!$stmt) {
     $name_length = count($name);
     $name = $name[$name_length - 2];
 
-    $stmt->bind_param('ds', $counter_id, $name);
+    $default_counter_name = 'nouveau compteur';
+    $default_counter_color = 'ffffff';
+    $default_counter_value = 0;
+
+    $stmt->bind_param(
+        'sssd',
+        $name,
+        $default_counter_name,
+        $default_counter_color,
+        $default_counter_value
+    );
     $stmt->execute();
     // Si le compteur a bien été mis à jour
     if ($mysqli->affected_rows == 1) {
-        $return = array(
-            'status' => 'success',
-            'counter_id' => $counter_id,
+        $return['status'] = 'success';
+        $return[] = array(
+            'counter_id' => $mysqli->insert_id,
+            'counter_name' => $default_counter_name,
+            'counter_color' => $default_counter_color,
+            'counter_value' => $default_counter_value,
         );
-        if (isset($_POST['direction'])) {
-            if ($_POST['direction'] == '+') {
-                $return['direction'] = '+';
-            } else if ($_POST['direction'] == '-'){
-                $return['direction'] = '-';
-            }
-        }
     } else {
         $return = array(
             'status' => 'error',

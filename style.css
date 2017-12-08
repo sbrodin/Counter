@@ -74,6 +74,22 @@ table {
 }
 .counter {
   margin-top: 20px;
+  padding: 0 20px;
+  position: relative;
+}
+.counter:after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  content: '-';
+  color: #ffffff;
+  background-color: #cc3333;
+  width: 25px;
+  height: 25px;
+  border-radius: 20px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bolder;
 }
 .counter td {
   border: 1px solid #000000;
