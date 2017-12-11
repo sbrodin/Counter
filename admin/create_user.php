@@ -1,10 +1,10 @@
 <?php
-if (isset($_POST) && !empty($_POST)) {
-    if (isset($_POST['user_name']) && !empty($_POST['user_name']) &&
-        isset($_POST['password']) && !empty($_POST['password'])) {
+if (!empty($_POST)) {
+    if (!empty($_POST['user_name']) &&
+        !empty($_POST['password'])) {
         $user_name = $_POST['user_name'];
         $password = $_POST['password'];
-        if (isset($_POST['displayed_name']) && !empty($_POST['displayed_name'])) {
+        if (!empty($_POST['displayed_name'])) {
             $displayed_name = $_POST['displayed_name'];
         } else {
             $displayed_name = ucfirst($user_name);

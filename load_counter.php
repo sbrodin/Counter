@@ -1,5 +1,5 @@
 <?php
-if (isset($_POST['name']) && !empty($_POST['name'])) {
+if (!empty($_POST['name'])) {
     $name = $_POST['name'];
 } else {
     $return = array(
