@@ -4,7 +4,6 @@ document.querySelector('#logout').onclick = function(event) {
 };
 
 window.onload = function() {
-    // Appel AJAX
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "../../load_counter.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -21,12 +20,15 @@ window.onload = function() {
             return;
         }
     };
+    // Chargement des compteurs de l'utilisateur
     xhr.send("name=" + window.location.pathname);
 
-    document.querySelector('#create_counter').onclick = function(event) {
-        event.preventDefault();
-        create_counter();
-    };
+    if (document.querySelector('#create_counter')) {
+        document.querySelector('#create_counter').onclick = function(event) {
+            event.preventDefault();
+            create_counter();
+        };
+    }
 };
 
 function display_counter(counters) {
