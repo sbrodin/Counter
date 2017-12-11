@@ -47,7 +47,7 @@ function display_counter(counters) {
         // Création de la première ligne qui va contenir les données du compteur
         var first_table_row = createElementTr('', '');
         var ftr_first_div = createElementTd('', 'minus', 2, '-');
-        var ftr_second_div = createElementTd('', 'counter_name', '', counter.counter_name, counter.counter_color);
+        var ftr_second_div = createElementTd('', 'counter_name', '', counter.counter_name, counter.counter_color, true);
         var ftr_third_div = createElementTd('', 'plus', 2, '+');
 
         // Ajout des td dans le tr parent
@@ -73,12 +73,21 @@ function display_counter(counters) {
 
         // Création du bouton de suppression
         var delete_button = document.createElement('span');
-        delete_button.innerHTML = '-';
+        delete_button.innerHTML = '&#10007;';
         delete_button.setAttribute('class', 'delete_counter');
         delete_button.setAttribute('title', 'Supprimer le compteur "' + counter.counter_name + '"');
 
         // Ajout du bouton de suppression
         counter_container.appendChild(delete_button);
+
+        // Création du bouton de validation (pour l'édition du compteur)
+        var confirm_button = document.createElement('span');
+        confirm_button.innerHTML = '&#10003;';
+        confirm_button.setAttribute('class', 'confirm_edition');
+        confirm_button.setAttribute('title', 'Valider les modifications');
+
+        // Ajout du bouton de validation
+        counter_container.appendChild(confirm_button);
 
         // Ajout du conteneur dans le conteneur général
         counters_div.appendChild(counter_container);
@@ -117,7 +126,7 @@ function createElementTr(tr_id, tr_class) {
     return tr;
 }
 
-function createElementTd(td_id, td_class, td_rowspan, td_content, td_color) {
+function createElementTd(td_id, td_class, td_rowspan, td_content, td_color, create_hidden_elements) {
     var td = document.createElement('td');
     if (td_id != '') {
         td.setAttribute('id', td_id);
@@ -132,23 +141,66 @@ function createElementTd(td_id, td_class, td_rowspan, td_content, td_color) {
     if (td_color != '') {
         td.style.backgroundColor = '#' + td_color;
     }
+    if (create_hidden_elements) {
+        var hidden_input_content = document.createElement('input');
+        hidden_input_content.setAttribute('type', 'hidden');
+        hidden_input_content.setAttribute('value', td_content);
+        hidden_input_content.setAttribute('class', 'hidden_value');
+        td.appendChild(hidden_input_content);
+        if (td_color != '') {
+            var hidden_input_color = document.createElement('input');
+            hidden_input_color.setAttribute('type', 'hidden');
+            hidden_input_color.setAttribute('value', '#' + td_color);
+            hidden_input_color.setAttribute('class', 'hidden_color');
+            hidden_input_color.setAttribute('title', 'Modifier la couleur du compteur');
+            td.appendChild(hidden_input_color);
+        }
+    }
     return td;
 }
 
 function update_html(counter) {
-    // Mise à jour du DOM pour indrémentation / décrémentation
-    if (counter.direction != undefined) {
-        var counter_value = document.querySelector('.counter[data-id="' + counter.counter_id + '"] .counter_value');
-        if (counter.direction == '+') {
-            ++counter_value.innerHTML;
-        } else if (counter.direction == '-') {
-            --counter_value.innerHTML;
+    if (counter.counter_id != undefined) {
+        // Mise à jour du DOM pour indrémentation / décrémentation
+        if (counter.direction != undefined) {
+            var counter_value = document.querySelector('.counter[data-id="' + counter.counter_id + '"] .counter_value');
+            if (counter.direction == '+') {
+                ++counter_value.innerHTML;
+            } else if (counter.direction == '-') {
+                --counter_value.innerHTML;
+            }
         }
-    }
-    // Suppression du compteur du DOM
-    if (counter.delete != undefined) {
-        var counter_table = document.querySelector('.counter[data-id="' + counter.counter_id + '"]');
-        counter_table.parentElement.remove();
+        // Suppression du compteur du DOM
+        if (counter.delete != undefined) {
+            var counter_table = document.querySelector('.counter[data-id="' + counter.counter_id + '"]');
+            counter_table.parentElement.remove();
+        }
+        // Mise à jour du nom et de la couleur du compteur
+        if (counter.new_name != undefined &&
+            counter.new_color != undefined) {
+            var counter_name = document.querySelector('.counter[data-id="' + counter.counter_id + '"] .counter_name');
+
+            counter_name.innerHTML = counter.new_name;
+
+            // Ajout du nouveau nom du compteur
+            var hidden_input_content = document.createElement('input');
+            hidden_input_content.setAttribute('type', 'hidden');
+            hidden_input_content.setAttribute('value', counter.new_name);
+            hidden_input_content.setAttribute('class', 'hidden_value');
+            counter_name.appendChild(hidden_input_content);
+
+            // Ajout du nouveau nom du compteur
+            var hidden_input_color = document.createElement('input');
+            hidden_input_color.setAttribute('type', 'hidden');
+            hidden_input_color.setAttribute('value', counter.new_color);
+            hidden_input_color.setAttribute('class', 'hidden_color');
+            counter_name.appendChild(hidden_input_color);
+
+            counter_name.style.backgroundColor = counter.new_color;
+            document.querySelector('.counter[data-id="' + counter.counter_id + '"] .counter_value').style.backgroundColor = counter.new_color;
+
+            document.querySelector('.counter[data-id="' + counter.counter_id + '"]').parentElement.querySelector('.confirm_edition').style.display = 'none';
+        }
     }
 }
 
@@ -174,7 +226,7 @@ function create_counter() {
 }
 
 function update_counter() {
-    var counter_id = this.closest('table').getAttribute('data-id');
+    var counter_id = this.closest('.counter_container').querySelector('table').getAttribute('data-id');
     // Appel AJAX
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "../../update_counter.php", true);
@@ -195,9 +247,11 @@ function update_counter() {
         this.className.match(/\bplus\b/)) {
         xhr.send("counter_id=" + counter_id + "&name=" + window.location.pathname + "&direction=" + encodeURIComponent(this.innerHTML));
     }
-    if (this.className.match(/\bcounter_name\b/)) {
+    if (this.className.match(/\bconfirm_edition\b/)) {
         console.log('change counter name !');
-        // xhr.send("counter_id=" + counter_id + "&name=" + window.location.pathname + "&direction=" + this.innerHTML);
+        var new_name = this.closest('.counter_container').querySelector('.hidden_value').value;
+        var new_color = this.closest('.counter_container').querySelector('.hidden_color').value;
+        xhr.send("counter_id=" + counter_id + "&name=" + window.location.pathname + "&new_name=" + new_name + "&new_color=" + new_color);
     }
     // TODO : Ajouter les cas de changement de nom et de couleur du compteur
 };
@@ -222,20 +276,24 @@ function delete_counter(delete_button) {
     xhr.send("counter_id=" + counter_id + "&name=" + window.location.pathname + "&delete=");
 }
 
-function add_listeners(element) {
-    if (element == undefined ) {
-        element = document;
+function add_listeners(elements) {
+    if (elements == undefined ) {
+        elements = document;
     }
 
-    element.querySelectorAll('.minus, .plus').forEach(function(element) {
+    elements.querySelectorAll('.minus, .plus').forEach(function(element) {
         element.addEventListener('click', update_counter, false);
-    })
+    });
 
-    element.querySelectorAll('.counter_name').forEach(function(element) {
-        element.addEventListener('dblclick', update_counter, false);
-    })
+    elements.querySelectorAll('.counter_name, .counter_value').forEach(function(element) {
+        element.addEventListener('dblclick', change_name_color, false);
+    });
 
-    element.querySelectorAll('.delete_counter').forEach(function(element) {
+    elements.querySelectorAll('.confirm_edition').forEach(function(element) {
+        element.addEventListener('click', update_counter, false);
+    });
+
+    elements.querySelectorAll('.delete_counter').forEach(function(element) {
         element.addEventListener('click', function() {
             if (confirm('Confirmer la suppression du compteur ?')) {
                 delete_counter(this);
@@ -243,5 +301,18 @@ function add_listeners(element) {
                 return;
             }
         }, false);
-    })
+    });
+}
+
+function change_name_color() {
+    var counter_container = this.closest('.counter_container');
+    counter_container.querySelector('.confirm_edition').style.display = 'inline-block';
+    var hidden_value = counter_container.querySelector('.hidden_value');
+    hidden_value.type = 'text';
+    var hidden_color = counter_container.querySelector('.hidden_color');
+    hidden_color.type = 'color';
+    counter_container.querySelector('.counter_name').innerHTML = '';
+    counter_container.querySelector('.counter_name').appendChild(hidden_value);
+    counter_container.querySelector('.counter_name').appendChild(hidden_color);
+    // console.log(hidden_elements);
 }

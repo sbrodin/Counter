@@ -82,20 +82,28 @@ table {
   position: relative;
   display: inline-block;
 }
-.delete_counter {
+.delete_counter,
+.confirm_edition {
   display: inline-block;
-  vertical-align: top;
-  content: '-';
-  color: #ffffff;
-  background-color: #cc3333;
   width: 25px;
   height: 25px;
+  color: #ffffff;
   border-radius: 20px;
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.0625rem;
   font-weight: bolder;
   cursor: pointer;
   margin-left: 10px;
+}
+.delete_counter {
+  vertical-align: top;
+  background-color: #cc3333;
+}
+.confirm_edition {
+  vertical-align: bottom;
+  background-color: #33cc33;
+  display: none;
+  margin-left: -25px;
 }
 .counter td {
   border: 1px solid #000000;
@@ -126,6 +134,7 @@ table {
 .counter td.plus,
 .counter td.counter_name,
 .counter td.counter_value,
-.delete_counter {
+.delete_counter,
+.confirm_edition {
   user-select: none;
 }
