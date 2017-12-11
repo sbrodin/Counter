@@ -75,6 +75,7 @@ function display_counter(counters) {
         var delete_button = document.createElement('span');
         delete_button.innerHTML = '-';
         delete_button.setAttribute('class', 'delete_counter');
+        delete_button.setAttribute('title', 'Supprimer le compteur "' + counter.counter_name + '"');
 
         // Ajout du bouton de suppression
         counter_container.appendChild(delete_button);
