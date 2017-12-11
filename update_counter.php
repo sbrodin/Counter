@@ -1,6 +1,6 @@
 <?php
-if (isset($_POST['name']) && !empty($_POST['name']) &&
-    isset($_POST['counter_id'])) {
+if (!empty($_POST['name']) &&
+    !empty($_POST['counter_id'])) {
     $name = $_POST['name'];
     $counter_id = intval($_POST['counter_id']);
 } else {
