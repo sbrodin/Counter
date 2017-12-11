@@ -48,6 +48,7 @@ TODO
 ****
 
 Liste des éléments restants à faire :
-    - Changement de nom du compteur
-    - Changement de couleur du compteur
+    - Edition du compteur
+        - Changement de nom
+        - Changement de couleur
     - Enregistrement de la modification du compteur dans l'historique
