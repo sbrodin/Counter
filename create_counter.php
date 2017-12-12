@@ -47,11 +47,17 @@ if (!$stmt) {
         $default_counter_value
     );
     $stmt->execute();
-    // Si le compteur a bien été mis à jour
+    // Si le compteur a bien été créé
     if ($mysqli->affected_rows == 1) {
+        $counter_id = $mysqli->insert_id;
+
+        // On ajoute à l'historique
+        require 'add_history.php';
+        add_history($counter_id, 'counter');
+
         $return['status'] = 'success';
         $return[] = array(
-            'counter_id' => $mysqli->insert_id,
+            'counter_id' => $counter_id,
             'counter_name' => $default_counter_name,
             'counter_color' => $default_counter_color,
             'counter_value' => $default_counter_value,

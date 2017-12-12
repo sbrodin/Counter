@@ -68,19 +68,25 @@ if (!$stmt) {
             'status' => 'success',
             'counter_id' => $counter_id,
         );
+        require 'add_history.php';
         if (isset($_POST['direction'])) {
             if ($_POST['direction'] == '+') {
                 $return['direction'] = '+';
             } else if ($_POST['direction'] == '-'){
                 $return['direction'] = '-';
             }
+            // On ajoute à l'historique
+            add_history($counter_id, 'value');
         }
         if (!empty($_POST['new_name']) &&
             !empty($_POST['new_color'])) {
             $return['new_name'] = $_POST['new_name'];
             $return['new_color'] = $_POST['new_color'];
+            add_history($counter_id, 'name', $_POST['new_name']);
+            add_history($counter_id, 'color', $_POST['new_color']);
         }
         if (isset($_POST['delete'])) {
+            add_history($counter_id, 'delete');
             $return['delete'] = true;
         }
     } else {
