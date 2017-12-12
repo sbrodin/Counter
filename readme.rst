@@ -22,6 +22,7 @@ Copiez tous les fichiers.
 Ensuite copiez le fichier _connexion_data.php vers connexion_data.php.
 Changez la configuration du fichier connexion_data.php pour correspondre
 à la configuration de votre serveur et à votre base de données.
+Créez un répertoire "user" à la racine.
 Demandez une structure de base à cette adresse :
 `stanislas.brodin@gmail.com <mailto:stanislas.brodin@gmail.com>`_
 en précisant qu'il s'agit de l'application Counter.
