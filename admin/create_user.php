@@ -42,7 +42,7 @@ if (!empty($_POST)) {
         file_put_contents('../user/' . $user_name . '/.htpasswd', $htpasswd_content);
 
         // Création du fichier index.html
-        $index_content = file_get_contents('../user/template/index.html');
+        $index_content = file_get_contents('../template/index.html');
         $index_content = str_replace('%%Template%%', $displayed_name, $index_content);
         file_put_contents('../user/' . $user_name . '/index.html', $index_content);
 
