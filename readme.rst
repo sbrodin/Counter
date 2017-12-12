@@ -49,8 +49,8 @@ TODO
 ****
 
 Liste des éléments restants à faire :
-    - Edition du compteur
-        - Changement de couleur d'écriture
     - Enregistrement de la modification du compteur dans l'historique
-    - Affichage des messages d'erreur et de succès
     - Ajout de stats simples sur l'ensemble des compteurs (nb de compteurs, moyenne, total)
+    - Affichage des messages d'erreur et de succès
+    - Edition du compteur
+        - Changement de couleur d'écriture ?
