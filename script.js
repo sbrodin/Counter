@@ -295,7 +295,8 @@ function add_listeners(elements) {
 
     elements.querySelectorAll('.delete_counter').forEach(function(element) {
         element.addEventListener('click', function() {
-            if (confirm('Confirmer la suppression du compteur ?')) {
+            counter_name = element.getAttribute('title').split('"')[1];
+            if (confirm('Confirmer la suppression du compteur "' + counter_name + '" ?')) {
                 delete_counter(this);
             } else {
                 return;
