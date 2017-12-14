@@ -145,3 +145,10 @@ table {
 .confirm_edition {
   user-select: none;
 }
+#general_stats {
+  font-size: 1rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  color: #666666;
+}

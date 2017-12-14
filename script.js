@@ -45,7 +45,7 @@ function display_counter(counters) {
         var tbody = createElementTbody();
 
         // Création de la première ligne qui va contenir les données du compteur
-        var first_table_row = createElementTr('', '');
+        var first_table_row = createElementTr();
         var ftr_first_div = createElementTd('', 'minus', 2, '-');
         var ftr_second_div = createElementTd('', 'counter_name', '', counter.counter_name, counter.counter_color, true);
         var ftr_third_div = createElementTd('', 'plus', 2, '+');
@@ -56,7 +56,7 @@ function display_counter(counters) {
         first_table_row.appendChild(ftr_third_div);
 
         // Création de la seconde ligne qui va contenir les données du compteur
-        var second_table_row = createElementTr('', '');
+        var second_table_row = createElementTr();
         var str_first_div = createElementTd('', 'counter_value', '', counter.counter_value, counter.counter_color);
 
         // Ajout du td dans le tr parent
@@ -99,8 +99,9 @@ function display_counter(counters) {
         counter_container.appendChild(confirm_button);
 
         // Ajout du conteneur dans le conteneur général
-        counters_div.appendChild(counter_container);
+        counters_div.prepend(counter_container);
     };
+    update_general_stats();
 }
 
 function createElementTable(table_id, table_class, table_data_id) {
@@ -127,10 +128,10 @@ function createElementTbody() {
 function createElementTr(tr_id, tr_class) {
     var tr = document.createElement('tr');
     if (tr_id != '') {
-        td.setAttribute('id', tr_id);
+        tr.setAttribute('id', tr_id);
     }
     if (tr_class != '') {
-        td.setAttribute('class', tr_class);
+        tr.setAttribute('class', tr_class);
     }
     return tr;
 }
@@ -170,7 +171,7 @@ function createElementTd(td_id, td_class, td_rowspan, td_content, td_color, crea
 
 function update_html(counter) {
     if (counter.counter_id != undefined) {
-        // Mise à jour du DOM pour indrémentation / décrémentation
+        // Mise à jour du DOM pour incrémentation / décrémentation
         if (counter.direction != undefined) {
             var counter_value = document.querySelector('.counter[data-id="' + counter.counter_id + '"] .counter_value');
             if (counter.direction == '+') {
@@ -211,6 +212,7 @@ function update_html(counter) {
             document.querySelector('.counter[data-id="' + counter.counter_id + '"]').parentElement.querySelector('.confirm_edition').style.display = 'none';
             document.querySelector('.counter[data-id="' + counter.counter_id + '"]').parentElement.querySelector('.edit_counter').style.display = 'inline-block';
         }
+        update_general_stats();
     }
 }
 
@@ -258,12 +260,10 @@ function update_counter() {
         xhr.send("counter_id=" + counter_id + "&name=" + window.location.pathname + "&direction=" + encodeURIComponent(this.innerHTML));
     }
     if (this.className.match(/\bconfirm_edition\b/)) {
-        console.log('change counter name !');
         var new_name = this.closest('.counter_container').querySelector('.hidden_value').value;
         var new_color = this.closest('.counter_container').querySelector('.hidden_color').value;
         xhr.send("counter_id=" + counter_id + "&name=" + window.location.pathname + "&new_name=" + new_name + "&new_color=" + new_color);
     }
-    // TODO : Ajouter les cas de changement de nom et de couleur du compteur
 };
 
 function delete_counter(delete_button) {
@@ -330,4 +330,23 @@ function change_name_color() {
     counter_container.querySelector('.counter_name').innerHTML = '';
     counter_container.querySelector('.counter_name').appendChild(hidden_value);
     counter_container.querySelector('.counter_name').appendChild(hidden_color);
+}
+
+function update_general_stats() {
+    var counter_number = parseInt(document.querySelector('#counter_number').innerHTML);
+    var total = parseInt(document.querySelector('#total').innerHTML);
+    if (isNaN(counter_number)) {
+        counter_number = 0;
+    }
+    if (isNaN(total)) {
+        total = 0;
+    }
+    document.querySelectorAll('.counter_value').forEach(function(counter) {
+        ++counter_number;
+        total+= parseInt(counter.innerHTML);
+    });
+    average = total / counter_number;
+    document.querySelector('#counter_number').innerHTML = 'Nombre de compteurs : ' + counter_number;
+    document.querySelector('#total').innerHTML = 'Total : ' + total;
+    document.querySelector('#average').innerHTML = 'Moyenne : ' + average;
 }
