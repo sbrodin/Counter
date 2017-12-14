@@ -49,7 +49,6 @@ TODO
 ****
 
 Liste des éléments restants à faire :
-    - Ajout de stats simples sur l'ensemble des compteurs (nb de compteurs, moyenne, total)
     - Récupération des stats d'un compteur et affichage
     - Affichage des messages d'erreur et de succès
     - Edition du compteur
