@@ -80,6 +80,15 @@ function display_counter(counters) {
         // Ajout du bouton de suppression
         counter_container.appendChild(delete_button);
 
+        // Création du bouton d'édition
+        var edit_button = document.createElement('span');
+        edit_button.innerHTML = '&#9998;';
+        edit_button.setAttribute('class', 'edit_counter');
+        edit_button.setAttribute('title', 'Editer le compteur');
+
+        // Ajout du bouton d'édition
+        counter_container.appendChild(edit_button);
+
         // Création du bouton de validation (pour l'édition du compteur)
         var confirm_button = document.createElement('span');
         confirm_button.innerHTML = '&#10003;';
@@ -200,6 +209,7 @@ function update_html(counter) {
             document.querySelector('.counter[data-id="' + counter.counter_id + '"] .counter_value').style.backgroundColor = counter.new_color;
 
             document.querySelector('.counter[data-id="' + counter.counter_id + '"]').parentElement.querySelector('.confirm_edition').style.display = 'none';
+            document.querySelector('.counter[data-id="' + counter.counter_id + '"]').parentElement.querySelector('.edit_counter').style.display = 'inline-block';
         }
     }
 }
@@ -289,6 +299,10 @@ function add_listeners(elements) {
         element.addEventListener('dblclick', change_name_color, false);
     });
 
+    elements.querySelectorAll('.edit_counter').forEach(function(element) {
+        element.addEventListener('click', change_name_color, false);
+    });
+
     elements.querySelectorAll('.confirm_edition').forEach(function(element) {
         element.addEventListener('click', update_counter, false);
     });
@@ -307,6 +321,7 @@ function add_listeners(elements) {
 
 function change_name_color() {
     var counter_container = this.closest('.counter_container');
+    counter_container.querySelector('.edit_counter').style.display = 'none';
     counter_container.querySelector('.confirm_edition').style.display = 'inline-block';
     var hidden_value = counter_container.querySelector('.hidden_value');
     hidden_value.type = 'text';

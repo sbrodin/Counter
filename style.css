@@ -83,6 +83,7 @@ table {
   display: inline-block;
 }
 .delete_counter,
+.edit_counter,
 .confirm_edition {
   display: inline-block;
   width: 25px;
@@ -99,8 +100,13 @@ table {
   vertical-align: top;
   background-color: #cc3333;
 }
+.edit_counter {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #000000;
+  margin-left: -25px;
+}
 .confirm_edition {
-  vertical-align: bottom;
   background-color: #33cc33;
   display: none;
   margin-left: -25px;
@@ -109,31 +115,32 @@ table {
   border: 1px solid #000000;
   text-align: center;
 }
-.counter td.minus {
+.counter .minus {
   border-right: none;
   border-radius: 50px 0 0 50px;
 }
-.counter td.plus {
+.counter .plus {
   border-left: none;
   border-radius: 0 50px 50px 0;
 }
-.counter td.minus,
-.counter td.plus {
+.counter .minus,
+.counter .plus {
   cursor: pointer;
   width: 70px;
   font-size: 1.5rem;
 }
-.counter td.counter_name {
+.counter .counter_name {
   border-bottom: none;
 }
-.counter td.counter_name,
-.counter td.counter_value {
+.counter .counter_name,
+.counter .counter_value {
+  min-width: 200px;
   padding: 5px 15px;
 }
-.counter td.minus,
-.counter td.plus,
-.counter td.counter_name,
-.counter td.counter_value,
+.counter .minus,
+.counter .plus,
+.counter .counter_name,
+.counter .counter_value,
 .delete_counter,
 .confirm_edition {
   user-select: none;
