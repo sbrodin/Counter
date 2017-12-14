@@ -49,7 +49,9 @@ TODO
 ****
 
 Liste des éléments restants à faire :
-    - Récupération des stats d'un compteur et affichage
+    - Stats d'un compteur
+        - Récupération
+        - Affichage (chartjs)
     - Affichage des messages d'erreur et de succès
     - Edition du compteur
         - Changement de couleur d'écriture ?
