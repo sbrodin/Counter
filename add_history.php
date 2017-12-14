@@ -53,7 +53,7 @@ function add_history($counter_id = null, $changed_variable, $changed_to = null) 
             }
             $date = date('Y-m-d H:i:s');
             $stmt->bind_param(
-                'dssd',
+                'dsss',
                 $counter_id,
                 $date,
                 $changed_variable,
