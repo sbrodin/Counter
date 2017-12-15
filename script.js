@@ -328,6 +328,7 @@ function change_name_color() {
     counter_container.querySelector('.counter_name').innerHTML = '';
     counter_container.querySelector('.counter_name').appendChild(hidden_value);
     counter_container.querySelector('.counter_name').appendChild(hidden_color);
+    counter_container.querySelector('.hidden_value').select();
 }
 
 function update_general_stats() {
