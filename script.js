@@ -328,27 +328,30 @@ function change_name_color() {
     counter_container.querySelector('.counter_name').innerHTML = '';
     counter_container.querySelector('.counter_name').appendChild(hidden_value);
     counter_container.querySelector('.counter_name').appendChild(hidden_color);
+    // Sélectionne tout le texte pour changement de nom simplifié
     counter_container.querySelector('.hidden_value').select();
 }
 
 function update_general_stats() {
-    var counter_number = parseInt(document.querySelector('#counter_number').innerHTML);
-    var total = parseInt(document.querySelector('#total').innerHTML);
-    if (isNaN(counter_number)) {
-        counter_number = 0;
-    }
-    if (isNaN(total)) {
-        total = 0;
-    }
+    // Calcul du nombre de compteur, de leur total et de leur moyenne
+    var counter_number = 0;
+    var total = 0;
     document.querySelectorAll('.counter_value').forEach(function(counter) {
         ++counter_number;
         total+= parseInt(counter.innerHTML);
     });
-    average = total / counter_number;
+    var average = total / counter_number;
     if (isNaN(average)) {
         average = 0;
     }
+    average = average.toFixed(2);
+    var standard_deviation = 0;
+    document.querySelectorAll('.counter_value').forEach(function(counter) {
+        standard_deviation+= Math.pow((parseInt(counter.innerHTML)-average), 2);
+    });
+    standard_deviation = Math.sqrt(standard_deviation/counter_number).toFixed(2);
     document.querySelector('#counter_number').innerHTML = 'Nombre de compteurs : ' + counter_number;
     document.querySelector('#total').innerHTML = 'Total : ' + total;
     document.querySelector('#average').innerHTML = 'Moyenne : ' + average;
+    document.querySelector('#standard_deviation').innerHTML = 'Ecart-type : ' + standard_deviation;
 }
