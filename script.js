@@ -156,6 +156,8 @@ function createElementTd(td_id, td_class, td_rowspan, td_content, td_color, crea
             hidden_input_color.setAttribute('value', '#' + td_color);
             hidden_input_color.setAttribute('class', 'hidden_color');
             hidden_input_color.setAttribute('title', 'Modifier la couleur du compteur');
+            hidden_input_color.setAttribute('pattern', '#[a-f0-9]{6}');
+            hidden_input_color.setAttribute('placeholder', counter.new_color);
             td.appendChild(hidden_input_color);
         }
     }
@@ -192,11 +194,14 @@ function update_html(counter) {
             hidden_input_content.setAttribute('class', 'hidden_value');
             counter_name.appendChild(hidden_input_content);
 
-            // Ajout du nouveau nom du compteur
+            // Ajout de la nouvelle couleur du compteur
             var hidden_input_color = document.createElement('input');
             hidden_input_color.setAttribute('type', 'hidden');
             hidden_input_color.setAttribute('value', counter.new_color);
             hidden_input_color.setAttribute('class', 'hidden_color');
+            hidden_input_color.setAttribute('title', 'Modifier la couleur du compteur');
+            hidden_input_color.setAttribute('pattern', '#[a-f0-9]{6}');
+            hidden_input_color.setAttribute('placeholder', counter.new_color);
             counter_name.appendChild(hidden_input_color);
 
             counter_name.style.backgroundColor = counter.new_color;
