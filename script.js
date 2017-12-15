@@ -125,15 +125,8 @@ function createElementTbody() {
     return tbody;
 }
 
-function createElementTr(tr_id, tr_class) {
-    var tr = document.createElement('tr');
-    if (tr_id != '') {
-        tr.setAttribute('id', tr_id);
-    }
-    if (tr_class != '') {
-        tr.setAttribute('class', tr_class);
-    }
-    return tr;
+function createElementTr() {
+    return document.createElement('tr');
 }
 
 function createElementTd(td_id, td_class, td_rowspan, td_content, td_color, create_hidden_elements) {
