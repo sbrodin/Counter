@@ -4,4 +4,4 @@ $mysqli = new mysqli($host, $username, $password, $database);
 if ($mysqli->connect_error) {
     var_dump(mysqli_connect_error());
 }
-$mysqli->set_charset('utf8');
+$mysqli->set_charset('utf8mb4');
