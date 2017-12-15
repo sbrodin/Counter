@@ -344,6 +344,9 @@ function update_general_stats() {
         total+= parseInt(counter.innerHTML);
     });
     average = total / counter_number;
+    if (isNaN(average)) {
+        average = 0;
+    }
     document.querySelector('#counter_number').innerHTML = 'Nombre de compteurs : ' + counter_number;
     document.querySelector('#total').innerHTML = 'Total : ' + total;
     document.querySelector('#average').innerHTML = 'Moyenne : ' + average;
