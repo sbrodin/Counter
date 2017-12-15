@@ -18,6 +18,7 @@ window.onload = function() {
     // Chargement des compteurs de l'utilisateur
     xhr.send("name=" + window.location.pathname);
 
+    // Ajout du listener pour ajout de compteur
     if (document.querySelector('#create_counter')) {
         document.querySelector('#create_counter').onclick = function(event) {
             event.preventDefault();
@@ -144,6 +145,8 @@ function createElementTd(td_id, td_class, td_rowspan, td_content, td_color, crea
         hidden_input_content.setAttribute('type', 'hidden');
         hidden_input_content.setAttribute('value', td_content);
         hidden_input_content.setAttribute('class', 'hidden_value');
+        hidden_input_content.setAttribute('title', 'Modifier le nom du compteur');
+        hidden_input_content.setAttribute('placeholder', td_content);
         td.appendChild(hidden_input_content);
         if (td_color != '') {
             var hidden_input_color = document.createElement('input');
@@ -152,7 +155,7 @@ function createElementTd(td_id, td_class, td_rowspan, td_content, td_color, crea
             hidden_input_color.setAttribute('class', 'hidden_color');
             hidden_input_color.setAttribute('title', 'Modifier la couleur du compteur');
             hidden_input_color.setAttribute('pattern', '#[a-f0-9]{6}');
-            hidden_input_color.setAttribute('placeholder', counter.new_color);
+            hidden_input_color.setAttribute('placeholder', '#' + td_color);
             td.appendChild(hidden_input_color);
         }
     }
@@ -204,6 +207,7 @@ function update_html(counter) {
 
             document.querySelector('.counter[data-id="' + counter.counter_id + '"]').parentElement.querySelector('.confirm_edition').style.display = 'none';
             document.querySelector('.counter[data-id="' + counter.counter_id + '"]').parentElement.querySelector('.edit_counter').style.display = 'inline-block';
+            document.querySelector('.counter[data-id="' + counter.counter_id + '"]').parentElement.querySelector('.delete_counter').style.display = 'inline-block';
         }
         update_general_stats();
     }
@@ -315,6 +319,7 @@ function add_listeners(elements) {
 function change_name_color() {
     var counter_container = this.closest('.counter_container');
     counter_container.querySelector('.edit_counter').style.display = 'none';
+    counter_container.querySelector('.delete_counter').style.display = 'none';
     counter_container.querySelector('.confirm_edition').style.display = 'inline-block';
     var hidden_value = counter_container.querySelector('.hidden_value');
     hidden_value.type = 'text';
