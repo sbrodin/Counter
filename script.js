@@ -1,8 +1,3 @@
-document.querySelector('#logout').onclick = function(event) {
-    event.preventDefault();
-    window.location.href = 'https://logout:logout@counter.stanislas-brodin.fr' + window.location.pathname;
-};
-
 window.onload = function() {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "../../load_counter.php", true);
