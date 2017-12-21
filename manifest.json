@@ -1,6 +1,13 @@
 {
   "short_name": "Counter",
   "name": "Counter",
+  "icons": [
+    {
+      "src":"logo.png",
+      "sizes": "200x200",
+      "type": "image/png"
+    }
+  ],
   "start_url": "?utm_source=homescreen",
   "background_color": "#fff",
   "theme_color": "#ffe5c4",
