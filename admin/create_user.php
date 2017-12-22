@@ -116,24 +116,25 @@ if (!empty($_POST)) {
             <div><a href=".." id="home">&#127968; Home</a></div>
             <div><a href="index.html">Admin</a></div>
             <div>Création d'utilisateur</div>
-            <form method="POST">
-                <div>
-                    <label for="user_name">Nom d'utilisateur : </label>
-                    <input type="text" id="user_name" name="user_name" required autofocus>
-                </div>
-                <div>
-                    <label for="password">Mot de passe : </label>
-                    <input type="text" id="password" name="password" required>
-                </div>
-                <div>
-                    <label for="displayed_name">Nom affiché pour le répertoire : </label>
-                    <input type="text" id="displayed_name" name="displayed_name">
-                </div>
-                <div>
-                    <input type="submit" name="submit" value="Valider">
-                </div>
-            </form>
-            <script type="text/javascript" src="../script.js"></script>
+            <main>
+                <form method="POST">
+                    <div>
+                        <label for="user_name">Nom d'utilisateur : </label>
+                        <input type="text" id="user_name" name="user_name" required autofocus>
+                    </div>
+                    <div>
+                        <label for="password">Mot de passe : </label>
+                        <input type="text" id="password" name="password" required>
+                    </div>
+                    <div>
+                        <label for="displayed_name">Nom affiché pour le répertoire : </label>
+                        <input type="text" id="displayed_name" name="displayed_name">
+                    </div>
+                    <div>
+                        <input type="submit" name="submit" value="Valider">
+                    </div>
+                </form>
+            </main>
         </body>
     </html>
 <?php
