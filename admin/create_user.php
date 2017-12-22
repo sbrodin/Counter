@@ -96,7 +96,7 @@ if (!empty($_POST)) {
         }
     }
 } else {
-    ?>
+?>
     <!doctype html>
 
     <html lang="fr">
@@ -106,11 +106,16 @@ if (!empty($_POST)) {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta name="description" content="Counter">
             <meta name="author" content="Stanislas Brodin">
+            <meta name="theme-color" content="#d6a96f">
+            <link href="../logo.png" rel="icon" type="image/png">
+            <link href="../logo.png" rel="apple-touch-icon">
+            <link href="../manifest.json" rel="manifest">
             <link href="../style.css" media="screen" rel="stylesheet" type="text/css">
         </head>
         <body>
+            <div><a href=".." id="home">&#127968; Home</a></div>
+            <div><a href="index.html">Admin</a></div>
             <div>Création d'utilisateur</div>
-            <div><a id="logout" href="">Déconnexion</a></div>
             <form method="POST">
                 <div>
                     <label for="user_name">Nom d'utilisateur : </label>
@@ -131,6 +136,5 @@ if (!empty($_POST)) {
             <script type="text/javascript" src="../script.js"></script>
         </body>
     </html>
-
-    <?php
+<?php
 }
