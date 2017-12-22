@@ -53,5 +53,6 @@ Liste des éléments restants à faire :
         - Récupération
         - Affichage (chartjs)
     - Affichage des messages d'erreur et de succès
+    - Affichage sur smartphone
     - Edition du compteur
         - Changement de couleur d'écriture ?
