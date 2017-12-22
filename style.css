@@ -77,6 +77,8 @@ table {
   width: auto;
   margin-top: 20px;
   padding: 0 30px 0 10px;
+  display: inline-block;
+  vertical-align: middle;
 }
 .counter {
   position: relative;
@@ -157,6 +159,14 @@ table {
   display: none;
 }
 
+@media (max-width:830px) {
+  .counter_container {
+    display: block;
+    width: 375px;
+    margin: 30px auto 0;
+    padding: 0;
+  }
+}
 
 @media (max-width:500px) {
   .counter_container {
