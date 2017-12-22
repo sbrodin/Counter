@@ -328,7 +328,7 @@ function change_name_color() {
     counter_container.querySelector('.counter_name').innerHTML = '';
     counter_container.querySelector('.counter_name').appendChild(hidden_value);
     counter_container.querySelector('.counter_name').appendChild(hidden_color);
-    // Sélectionne tout le texte pour changement de nom simplifié
+    // Sélectionne tout le texte pour simplifier le changement de nom
     counter_container.querySelector('.hidden_value').select();
 }
 
@@ -336,7 +336,8 @@ function update_general_stats() {
     // Calcul du nombre de compteur, de leur total et de leur moyenne
     var counter_number = 0;
     var total = 0;
-    document.querySelectorAll('.counter_value').forEach(function(counter) {
+    var counter_value_all = document.querySelectorAll('.counter_value');
+    counter_value_all.forEach(function(counter) {
         ++counter_number;
         total+= parseInt(counter.innerHTML);
     });
@@ -346,7 +347,7 @@ function update_general_stats() {
     }
     average = average.toFixed(2);
     var standard_deviation = 0;
-    document.querySelectorAll('.counter_value').forEach(function(counter) {
+    counter_value_all.forEach(function(counter) {
         standard_deviation+= Math.pow((parseInt(counter.innerHTML)-average), 2);
     });
     standard_deviation = Math.sqrt(standard_deviation/counter_number).toFixed(2);
