@@ -10,10 +10,11 @@
         <meta name="theme-color" content="#d6a96f">
         <link href="logo.png" rel="icon" type="image/png">
         <link href="logo.png" rel="apple-touch-icon">
-        <link rel="manifest" href="manifest.json">
+        <link href="manifest.json" rel="manifest">
         <link href="style.css" media="screen" rel="stylesheet" type="text/css">
     </head>
     <body>
         <div>Application Counter en cours de développement</div>
+        <?php include('user_links.html') ?>
     </body>
 </html>

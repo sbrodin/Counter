@@ -2,7 +2,7 @@
 if (!empty($_POST)) {
     if (!empty($_POST['user_name']) &&
         !empty($_POST['password'])) {
-        $user_name = $_POST['user_name'];
+        $user_name = strtolower($_POST['user_name']);
         $password = $_POST['password'];
         if (!empty($_POST['displayed_name'])) {
             $displayed_name = $_POST['displayed_name'];
@@ -45,6 +45,11 @@ if (!empty($_POST)) {
         $index_content = file_get_contents('../template/index.html');
         $index_content = str_replace('%%Template%%', $displayed_name, $index_content);
         file_put_contents('../user/' . $user_name . '/index.html', $index_content);
+
+        // Ajout de l'utilisateur sur la home
+        $user_links = file_get_contents('../user_links.html');
+        $user_links.= "\n" . '<div class="user_link"><a href="user/' . $user_name . '">' . $displayed_name . '</a></div>';
+        file_put_contents('../user_links.html', $user_links);
 
         // Création de l'utilisateur en base
         require '../database_connect.php';
