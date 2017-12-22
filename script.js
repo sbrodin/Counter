@@ -42,9 +42,9 @@ function display_counter(counters) {
 
         // Création de la première ligne qui va contenir les données du compteur
         var first_table_row = createElementTr();
-        var ftr_first_div = createElementTd('', 'minus', 2, '-');
-        var ftr_second_div = createElementTd('', 'counter_name', '', counter.counter_name, counter.counter_color, true);
-        var ftr_third_div = createElementTd('', 'plus', 2, '+');
+        var ftr_first_div = createElementTd('', 'minus', 2, '', '-');
+        var ftr_second_div = createElementTd('', 'counter_name', '', 200, counter.counter_name, counter.counter_color, true);
+        var ftr_third_div = createElementTd('', 'plus', 2, '', '+');
 
         // Ajout des td dans le tr parent
         first_table_row.appendChild(ftr_first_div);
@@ -53,7 +53,7 @@ function display_counter(counters) {
 
         // Création de la seconde ligne qui va contenir les données du compteur
         var second_table_row = createElementTr();
-        var str_first_div = createElementTd('', 'counter_value', '', counter.counter_value, counter.counter_color);
+        var str_first_div = createElementTd('', 'counter_value', '', '', counter.counter_value, counter.counter_color);
 
         // Ajout du td dans le tr parent
         second_table_row.appendChild(str_first_div);
@@ -125,7 +125,7 @@ function createElementTr() {
     return document.createElement('tr');
 }
 
-function createElementTd(td_id, td_class, td_rowspan, td_content, td_color, create_hidden_elements) {
+function createElementTd(td_id, td_class, td_rowspan, td_width, td_content, td_color, create_hidden_elements) {
     var td = document.createElement('td');
     if (td_id != '') {
         td.setAttribute('id', td_id);
@@ -135,6 +135,9 @@ function createElementTd(td_id, td_class, td_rowspan, td_content, td_color, crea
     }
     if (td_rowspan != '') {
         td.setAttribute('rowspan', td_rowspan);
+    }
+    if (td_width != '') {
+        td.setAttribute('width', td_width);
     }
     td.innerHTML = td_content;
     if (td_color != '') {

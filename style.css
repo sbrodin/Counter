@@ -131,6 +131,7 @@ table {
 }
 .counter .counter_name {
   border-bottom: none;
+  word-break: break-all;
 }
 .counter .counter_name,
 .counter .counter_value {
