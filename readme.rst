@@ -54,5 +54,6 @@ Liste des éléments restants à faire :
         - Affichage (chartjs)
     - Affichage des messages d'erreur et de succès
     - Affichage sur smartphone
+    - Ajouter un "form" pour gérer le "submit" de changement de nom de compteur
     - Edition du compteur
         - Changement de couleur d'écriture ?

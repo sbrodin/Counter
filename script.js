@@ -307,6 +307,11 @@ function add_listeners(elements) {
         element.addEventListener('click', update_counter, false);
     });
 
+    // TODO : Ajouter un form pour gérer le "submit"
+    elements.querySelectorAll('.form_counter').forEach(function(element) {
+        element.addEventListener('submit', update_counter, false);
+    });
+
     elements.querySelectorAll('.delete_counter').forEach(function(element) {
         element.addEventListener('click', function() {
             counter_name = element.getAttribute('title').split('"')[1];
