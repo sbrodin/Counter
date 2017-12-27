@@ -35,6 +35,11 @@ window.onload = function() {
             create_counter();
         };
     }
+
+    // Ajout du listener pour masquer les statistiques
+    document.querySelector('#mask').onclick = function(event) {
+        hide_stats();
+    };
 };
 
 function display_counter(counters) {
@@ -85,6 +90,15 @@ function display_counter(counters) {
 
         // Ajout du bouton de suppression
         counter_container.appendChild(delete_button);
+
+        // Création du bouton de statistiques
+        var stats_button = document.createElement('span');
+        stats_button.innerHTML = '&#128480;';
+        stats_button.setAttribute('class', 'stats_counter');
+        stats_button.setAttribute('title', 'Statistiques du compteur');
+
+        // Ajout du bouton de statistiques
+        counter_container.appendChild(stats_button);
 
         // Création du bouton d'édition
         var edit_button = document.createElement('span');
@@ -296,44 +310,6 @@ function delete_counter(delete_button) {
     xhr.send("counter_id=" + counter_id + "&name=" + window.location.pathname + "&delete=");
 }
 
-function add_listeners(elements) {
-    if (elements == undefined ) {
-        elements = document;
-    }
-
-    elements.querySelectorAll('.minus, .plus').forEach(function(element) {
-        element.addEventListener('click', update_counter, false);
-    });
-
-    elements.querySelectorAll('.counter_name, .counter_value').forEach(function(element) {
-        element.addEventListener('dblclick', change_name_color, false);
-    });
-
-    elements.querySelectorAll('.edit_counter').forEach(function(element) {
-        element.addEventListener('click', change_name_color, false);
-    });
-
-    elements.querySelectorAll('.confirm_edition').forEach(function(element) {
-        element.addEventListener('click', update_counter, false);
-    });
-
-    // TODO : Ajouter un form pour gérer le "submit"
-    elements.querySelectorAll('.form_counter').forEach(function(element) {
-        element.addEventListener('submit', update_counter, false);
-    });
-
-    elements.querySelectorAll('.delete_counter').forEach(function(element) {
-        element.addEventListener('click', function() {
-            counter_name = element.getAttribute('title').split('"')[1];
-            if (confirm('Confirmer la suppression du compteur "' + counter_name + '" ?')) {
-                delete_counter(this);
-            } else {
-                return;
-            }
-        }, false);
-    });
-}
-
 function change_name_color() {
     var counter_container = this.closest('.counter_container');
     counter_container.querySelector('.edit_counter').style.display = 'none';
@@ -373,4 +349,54 @@ function update_general_stats() {
     document.querySelector('#total').innerHTML = 'Total : ' + total;
     document.querySelector('#average').innerHTML = 'Moyenne : ' + average;
     document.querySelector('#standard_deviation').innerHTML = 'Ecart-type : ' + standard_deviation;
+}
+
+function show_stats() {
+    document.querySelector('#mask').style.display = 'block';
+}
+
+function hide_stats() {
+    document.querySelector('#mask').style.display = 'none';
+}
+
+function add_listeners(elements) {
+    if (elements == undefined ) {
+        elements = document;
+    }
+
+    elements.querySelectorAll('.minus, .plus').forEach(function(element) {
+        element.addEventListener('click', update_counter, false);
+    });
+
+    elements.querySelectorAll('.counter_name, .counter_value').forEach(function(element) {
+        element.addEventListener('dblclick', change_name_color, false);
+    });
+
+    elements.querySelectorAll('.edit_counter').forEach(function(element) {
+        element.addEventListener('click', change_name_color, false);
+    });
+
+    elements.querySelectorAll('.confirm_edition').forEach(function(element) {
+        element.addEventListener('click', update_counter, false);
+    });
+
+    elements.querySelectorAll('.stats_counter').forEach(function(element) {
+        element.addEventListener('click', show_stats, false);
+    });
+
+    // TODO : Ajouter un form pour gérer le "submit"
+    elements.querySelectorAll('.form_counter').forEach(function(element) {
+        element.addEventListener('submit', update_counter, false);
+    });
+
+    elements.querySelectorAll('.delete_counter').forEach(function(element) {
+        element.addEventListener('click', function() {
+            counter_name = element.getAttribute('title').split('"')[1];
+            if (confirm('Confirmer la suppression du compteur "' + counter_name + '" ?')) {
+                delete_counter(this);
+            } else {
+                return;
+            }
+        }, false);
+    });
 }
