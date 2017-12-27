@@ -6,6 +6,11 @@
       "src":"logo.png",
       "sizes": "200x200",
       "type": "image/png"
+    },
+    {
+      "src":"logo_1050.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ],
   "start_url": "?utm_source=homescreen",
