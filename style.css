@@ -69,6 +69,10 @@ table {
 }
 
 
+.user_link {
+  margin-top: 5px;
+  margin-left: 10px;
+}
 #counters {
   margin-bottom: 20px;
 }
